@@ -1,0 +1,32 @@
+<template>
+  <require from="./au-matrix.css"></require>
+
+
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th repeat.for="ct of colTitles">
+          ${ct}
+      </tr>
+      </tr>
+
+    </thead>
+    <tbody>
+      <tr repeat.for="row of matrix">
+        <th></th>
+        <td repeat.for="field of row" 
+            click.trigger="toggleEdit(field)">
+          <template if.bind="field.readonly">
+            ${field.value}
+          </template>
+          <template else>
+            <input value.bind="value" />
+          </template>
+
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</template>
