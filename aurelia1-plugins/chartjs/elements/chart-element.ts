@@ -1,7 +1,7 @@
 import { IChartCombined } from '../interface';
 import { inject, customElement, useView, bindable, bindingMode } from 'aurelia-framework'
 import { ModelObserver } from "../observers/model-observer"
-import Chart, { ChartOptions, ChartConfiguration, ChartData } from "chart.js"
+import { Chart, ChartOptions  } from "chart.js"
 
 
 @customElement('chart')
