@@ -1,0 +1,21 @@
+<template>
+    <div ref="el"
+         id="${containerId}"
+         class="cg-container">
+      <div class="cg-carousel">
+        <ul>
+          <li repeat.for="i of images"
+              class="cg-item ${$index == 0 ? 'active' : ''}"
+              data-cg-title="${i.title}"
+              data-cg-description="${i.desc}">
+
+            <img src="${i.src}"
+                 data-cg-srcset="${i.srcSet}"
+                 data-cg-title="${i.title}"
+                 data-cg-description="${i.desc}"/>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+</template>
