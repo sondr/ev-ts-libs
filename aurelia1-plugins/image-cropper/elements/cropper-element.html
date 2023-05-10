@@ -1,0 +1,15 @@
+<template>
+    <style>
+        .cropper-responsive-image {
+            height: auto;
+            width: 100%;
+        }
+    </style>
+    <div>
+        <img class="${responsive ? 'cropper-responsive-image' : ''}" 
+             src.bind="src" 
+             load.trigger="loaded($event)"
+             ref="element" 
+             css.bind="maxHeight ? 'max-height:' + maxHeight + 'vh!important;' : ''">
+    </div>
+</template>
