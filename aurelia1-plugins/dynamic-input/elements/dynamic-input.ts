@@ -123,7 +123,12 @@ export class CustomInput {
     el.setAttribute('class.bind', nameof<CustomInput>(e => e.inputModel.class));
     //el.setAttribute('readonly.bind', nameof<CustomInput>(e => e.inputModel.readonly));
     el.setAttribute('disabled.bind', nameof<CustomInput>(e => e.inputModel.disabled));
-    el.setAttribute('value.bind', this.valueBindString());
+
+    if (this.inputModel.type == 'checkbox') {
+      el.setAttribute('checked.bind', this.valueBindString());
+    } else {
+      el.setAttribute('value.bind', this.valueBindString());
+    }
     //if (this.inputModel.elementAttributes) {
     //  Object.keys()
     //}
