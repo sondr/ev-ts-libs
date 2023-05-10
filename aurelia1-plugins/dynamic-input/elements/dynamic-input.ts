@@ -129,9 +129,9 @@ export class CustomInput {
     el.setAttribute('disabled.bind', nameof<CustomInput>(e => e.inputModel.disabled));
 
     if (this.inputModel.type == 'checkbox') {
-      el.setAttribute('checked.bind', this.valueBindString(false));
+      el.setAttribute('checked.two-way', this.valueBindString(false));
     } else {
-      el.setAttribute('value.bind', this.valueBindString());
+      el.setAttribute('value.two-way', this.valueBindString());
     }
     //if (this.inputModel.elementAttributes) {
     //  Object.keys()
@@ -149,7 +149,7 @@ export class CustomInput {
     //el.setAttribute('readonly.bind', nameof<CustomInput>(e => e.inputModel.readonly));
     el.setAttribute('disabled.bind', nameof<CustomInput>(e => e.inputModel.disabled));
     el.setAttribute('rows.bind', nameof<CustomInput>(e => e.inputModel.rows));
-    el.setAttribute('value.bind', this.valueBindString());
+    el.setAttribute('value.two-way', this.valueBindString());
 
 
     this.containerElement.appendChild(el);
@@ -160,7 +160,7 @@ export class CustomInput {
 
     el.setAttribute('id.bind', nameof<CustomInput>(e => e.inputModel.id));
     el.setAttribute('class.bind', nameof<CustomInput>(e => e.inputModel.class));
-    el.setAttribute('value.bind', this.valueBindString());
+    el.setAttribute('value.two-way', this.valueBindString());
 
     // placeholder option
     const placeholderOption = this.createEl('option');
