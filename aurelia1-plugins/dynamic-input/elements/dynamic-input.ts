@@ -156,6 +156,7 @@ export class CustomInput {
     // placeholder option
     const placeholderOption = this.createEl('option');
     placeholderOption.setAttribute('if.bind', nameof<CustomInput>(e => e.inputModel.placeholder));
+    placeholderOption.setAttribute('model.bind', 'null');
     placeholderOption.innerHTML = interpolateSyntax(nameof<CustomInput>(e => e.inputModel.placeholder));
     el.appendChild(placeholderOption);
 
