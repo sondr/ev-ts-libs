@@ -95,7 +95,7 @@ export class CustomInput {
   get isRegular() { return regularInputs.some(e => e == this.inputModel.type); }
 
 
-  valueBindString() {
+  valueBindString(addTriggerBehavior: boolean = true) {
     let triggerBehavior = this.trigger ?? '';
 
     //let vstring = this.inputModel.propertyId.split('.').reduce((current, next) => { return `${current}['${next}']` },
@@ -112,7 +112,11 @@ export class CustomInput {
       vstring = vstring + ' & validate';
     }
 
-    return vstring + triggerBehavior;
+    if(addTriggerBehavior){
+      vstring = vstring + triggerBehavior;
+    }
+
+    return vstring;
   }
 
   attachInputElement() {
@@ -125,7 +129,7 @@ export class CustomInput {
     el.setAttribute('disabled.bind', nameof<CustomInput>(e => e.inputModel.disabled));
 
     if (this.inputModel.type == 'checkbox') {
-      el.setAttribute('checked.bind', this.valueBindString());
+      el.setAttribute('checked.bind', this.valueBindString(false));
     } else {
       el.setAttribute('value.bind', this.valueBindString());
     }
