@@ -4,10 +4,10 @@ import { INumberFormatOptions } from '../interfaces';
 const defaultOptions: INumberFormatOptions = {
   disabled: false,
   //spacing: 3,
-  delimiter: '.'
+  delimiter: ' '
 };
 
-@valueConverter('number-format')
+@valueConverter('numberformat')
 export class NumberFormatValueConverter {
   toView(value: number, opts: INumberFormatOptions) {
     let options = Object.assign({}, defaultOptions, opts ?? {});

@@ -21,7 +21,7 @@ export interface INumberFormatOptions extends IValueConverterOptions {
 }
 
 
-export interface ISkipTakeOptions extends IValueConverterOptions {
+export interface ITakeOptions extends IValueConverterOptions {
     take: number;
     page: number;
     skip?: number;

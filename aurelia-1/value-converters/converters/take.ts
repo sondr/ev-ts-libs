@@ -1,11 +1,11 @@
 import { valueConverter } from 'aurelia-framework';
-import { ISkipTakeOptions } from '../interfaces';
+import { ITakeOptions } from '../interfaces';
 
 
 
-@valueConverter('skip-take')
-export class SkipTakeValueConverter {
-    toView(array: any[], opts: ISkipTakeOptions) {
+@valueConverter('take')
+export class TakeValueConverter {
+    toView(array: any[], opts: ITakeOptions) {
         const valid = validate(array, opts);
         if (!valid) {
             return array;
@@ -19,7 +19,7 @@ export class SkipTakeValueConverter {
 
 }
 
-function validate(array: any[], opts: ISkipTakeOptions) {
+function validate(array: any[], opts: ITakeOptions) {
     let invalid = opts?.disabled ||
         !Array.isArray(array) ||
         !(opts?.take >= 0) ||
