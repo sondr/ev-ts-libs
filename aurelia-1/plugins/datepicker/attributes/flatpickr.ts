@@ -1,4 +1,6 @@
-import { inject, DOM, bindable, bindingMode, customAttribute, PLATFORM } from "aurelia-framework";
+import { DateParseValues, dateParse } from "../../../../core/date/date-parse";
+import { nameof } from "../../../../core/functions/nameof";
+import { inject, DOM, bindable, bindingMode, customAttribute, PLATFORM, BindingEngine, Disposable } from "aurelia-framework";
 import { Instance } from "flatpickr/dist/types/instance";
 import { Options } from "flatpickr/dist/types/options";
 import flatpickr from 'flatpickr';
@@ -7,25 +9,58 @@ import rangePlugin from 'flatpickr/dist/plugins/rangePlugin';
 //import { Norwegian } from 'flatpickr/dist/l10n/no';
 import 'flatpickr/dist/l10n/no';
 
+const defaultOpts: Options = {
+    locale: 'no',
+
+    time_24hr: true,
+    dateFormat: 'Y.m.d H:i',
+    weekNumbers: true,
+    closeOnSelect: true,
+}
+
+const dateTimeOptions: Options = {
+    enableTime: true,
+    noCalendar: false,
+    time_24hr: true,
+    dateFormat: 'Y.m.d H:i'
+};
+const dateOpts: Options = {
+    enableTime: false,
+    noCalendar: false,
+    dateFormat: 'Y.m.d'
+}
 const timeOptions: Options = {
     enableTime: true,
     noCalendar: true,
-    dateFormat: 'H.i',
-    time_24hr: true
+    time_24hr: true,
+    dateFormat: 'H.i'
 };
-const dateOptions: Options = {
-    enableTime: false,
-    dateFormat: 'Y.m.d'
-};
+
 
 export interface IOptions extends Options { }
 
-@customAttribute('datepicker')
-@inject(DOM.Element)
-export class FlatpickrCustomAttribute {
-    private resetPicker: boolean = false;
+const observedPropKeys = [
+    nameof<FlatpickrCustomAttribute>(e => e.type),
+    nameof<FlatpickrCustomAttribute>(e => e.minDate),
+    nameof<FlatpickrCustomAttribute>(e => e.maxDate),
+    nameof<FlatpickrCustomAttribute>(e => e.locale),
+    nameof<FlatpickrCustomAttribute>(e => e.use24H),
+    nameof<FlatpickrCustomAttribute>(e => e.options),
+];
 
+@customAttribute('datepicker')
+@inject(DOM.Element, BindingEngine)
+export class FlatpickrCustomAttribute {
+    @bindable minDate?: DateParseValues;
+    @bindable maxDate?: DateParseValues;
+    private resetPicker: boolean = false;
     rangeElement: HTMLInputElement;
+
+    @bindable use24H: boolean = true;
+    @bindable locale: string = 'no';
+    // localeChanged() {
+    //     this.refresh();
+    // }
 
     @bindable({ defaultBindingMode: bindingMode.fromView }) el: Instance;
     @bindable value: Date | string;
@@ -37,41 +72,84 @@ export class FlatpickrCustomAttribute {
         this.el.setDate(date);
     }
     @bindable rangeValue: Date | string;
-    @bindable type?: DatepickerType;
     @bindable options: Options;
-    optionsChanged(options: Options) {
-        if (!this.el || !options) return;
+    // optionsChanged(options: Options) {
+    //     if (!this.el || !options) return;
 
-        let builtOptions = this.buildOptions(options);
-        this.el.set(builtOptions);
-    }
+    //     this.refresh();
+    // }
     @bindable rangeElementId: string;
 
     @bindable private onUpdate: (response: any) => void;
     @bindable private onChange: (response: any) => void;
     @bindable private onClose: (response: any) => void;
 
-    @bindable private enableTime: boolean;
-    enableTimeChanged(val: boolean, oldVal: boolean) {
-        const currentDate = typeof (this.value) == 'string' ? new Date(this.value) : this.value;
-        if (!val && currentDate) currentDate.setHours(0, 0, 0, 0);
-        this.reset({
-            enableTime: !!val,
-            defaultDate: currentDate
-        });
+    @bindable type: DatepickerType = 'date-time';
+    // typeChanged(t: DatepickerType, prevType?: DatepickerType) {
+    //     this.refresh();
+    // }
+
+    private refreshTimer: number;
+    refresh() {
+        (PLATFORM.global as Window & typeof globalThis).clearTimeout(this.refreshTimer);
+        this.refreshTimer = (PLATFORM.global as Window & typeof globalThis).setTimeout(() => {
+            const opts = this.buildOptions(this.options);
+            this.el.set(opts);
+
+            if (this.type === 'date') {
+                const currentDate = typeof (this.value) === 'string' ? new Date(this.value) : this.value;
+                if (currentDate instanceof Date) { currentDate.setHours(0, 0, 0, 0); }
+                this.el.setDate(currentDate);
+            }
+        }, 10)
+
     }
 
+    //@bindable private enableTime: boolean;
+    // enableTimeChanged(val: boolean, oldVal: boolean) {
+    //     const currentDate = typeof (this.value) == 'string' ? new Date(this.value) : this.value;
+    //     if (!val && currentDate) currentDate.setHours(0, 0, 0, 0);
+    //     this.reset({
+    //         enableTime: !!val,
+    //         defaultDate: currentDate
+    //     });
+    // }
+
+
+
     constructor(
-        private readonly element: HTMLInputElement
+        private readonly element: HTMLInputElement,
+        private readonly _be: BindingEngine
     ) { }
+
+
+    private _refreshSubscribers: Disposable[] = [];
+    setupSubscribers() {
+        this._refreshSubscribers = observedPropKeys.map(key => {
+            return this._be.propertyObserver(this, key).subscribe((next, prev) => {
+                this.refresh();
+            });
+        });
+    }
+    disposeSubscribers() {
+        this._refreshSubscribers?.forEach(s => s?.dispose());
+        this._refreshSubscribers = [];
+    }
+
 
     bind() { }
 
+    unbind() {
+        this.disposeSubscribers();
+    }
+
     attached() {
         this.init();
+        this.setupSubscribers();
     }
 
     destroy() {
+        this.unbind();
         this.el.destroy();
     }
 
@@ -99,25 +177,30 @@ export class FlatpickrCustomAttribute {
         }
     }
 
+    getTypeOptions(type: DatepickerType) {
+        switch (type) {
+            case 'date':
+                return dateOpts;
+            case 'date-time':
+                return dateTimeOptions;
+            case 'time':
+                return timeOptions;
+        }
+    }
+
     buildOptions(o?: Options) {
         const now = new Date(Date.now());
-        let opts: Options = Object.assign({
-            time_24hr: true,
-            //enableTime: !!this.enableTime,
-            dateFormat: 'Y.m.d H:i',
-            locale: 'no',
-            weekNumbers: true,
-            closeOnSelect: true,
-            minDate: now
-        } as Options,
-            (this.type ? (this.type == 'date' ? dateOptions : (this.type == 'time' ? timeOptions : null)) : {}) || {},
-            this.options || {},
-            o || {});
+        let opts: Options = Object.assign({}, defaultOpts, this.getTypeOptions(this.type));
 
-        if (typeof this.enableTime === 'boolean') {
-            opts.enableTime = this.enableTime;
+        if (this.locale) {
+            opts.locale = this.locale as any;
         }
+        opts.time_24hr = this.use24H;
+        opts.minDate = dateParse(this.minDate);
+        opts.maxDate = dateParse(this.maxDate);
 
+        console.log(opts);
+        console.log(this);
         return opts;
     }
 
@@ -168,4 +251,4 @@ export class FlatpickrCustomAttribute {
     }
 }
 
-type DatepickerType = 'time' | 'date';
+type DatepickerType = 'date' | 'date-time' | 'time';

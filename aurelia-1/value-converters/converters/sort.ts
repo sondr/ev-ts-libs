@@ -3,16 +3,7 @@ import { ISortOptions } from '../interfaces';
 
 
 
-function validate<T>(array: T[], opts: ISortOptions) {
-    let isInvalid = !opts?.key ||
-        !Array.isArray(array) ||
-        array.length <= 1 ||
-        !localeCompareSupport();
 
-
-
-    return !isInvalid;
-}
 
 @valueConverter('sort')
 export class SortValueConverter {
@@ -53,6 +44,14 @@ export class SortValueConverter {
 
 }
 
+function validate<T>(array: T[], opts: ISortOptions) {
+    let isInvalid = !opts?.key ||
+        !Array.isArray(array) ||
+        array.length <= 1 ||
+        !localeCompareSupport();
+
+    return !isInvalid;
+}
 
 function localeCompareSupport(): boolean {
     try { 'a'.localeCompare('b',); } catch (e) { console.log("nosuppoert", e); return false; }

@@ -1,4 +1,4 @@
-interface IValueConverterOptions{
+interface IValueConverterOptions {
     disabled?: boolean;
 }
 
@@ -15,15 +15,20 @@ export interface IFilterOptions extends IValueConverterOptions {
     take?: number;
 }
 
+export interface INumberFormatOptions extends IValueConverterOptions {
+    //spacing?: number;
+    delimiter?: string;
+}
+
 
 export interface ISkipTakeOptions extends IValueConverterOptions {
     take: number;
     page: number;
-    skip: number;
+    skip?: number;
 }
 
 
-export interface ISortOptions extends IValueConverterOptions{
-    key?:string;
-    asc:boolean;
+export interface ISortOptions extends IValueConverterOptions {
+    key?: string;
+    asc: boolean;
 }

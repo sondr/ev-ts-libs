@@ -39,15 +39,7 @@ const FILTER_MODES: IFilterMode = {
 
 
 
-export const validate = (arr: any, opts: IFilterOptions) => {
-    let minLength = opts.minLength || 0;
-    let isInvalid = opts?.disabled ||
-        !Array.isArray(arr) ||
-        !opts?.q ||
-        ((opts.q || '').length < minLength);
 
-    return !isInvalid;
-};
 
 @valueConverter('filter')
 @inject(Parser)
@@ -102,6 +94,15 @@ export class FilterValueConverter {
 }
 
 
+function validate(arr: any, opts: IFilterOptions) {
+    let minLength = opts.minLength || 0;
+    let isInvalid = opts?.disabled ||
+        !Array.isArray(arr) ||
+        !opts?.q ||
+        ((opts.q || '').length < minLength);
+
+    return !isInvalid;
+};
 
 
 // export interface ISearchMode {
