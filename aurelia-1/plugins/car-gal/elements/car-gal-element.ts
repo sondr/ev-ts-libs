@@ -1,8 +1,10 @@
 import { bindable, customElement, PLATFORM, DOM } from 'aurelia-framework';
 import { CarGal } from '../../../../libs/car-gal/car-gal';
-import { cargalDefaultOpts  } from '../config/options';
+import { cargalDefaultOpts } from '../config/options';
+import { ICargalImg } from '..';
 import * as ICarGal from '../../../../libs/car-gal/interfaces';
 import * as Cargal from '../../../../libs/car-gal';
+
 
 @customElement('car-gal')
 export class CarouselCustomElement {
@@ -84,10 +86,3 @@ export class CarouselCustomElement {
 
 
 }
-
-export interface ICargalImg {
-  src: string;
-  srcSet?: string;
-  title: string;
-  desc: string;
-};

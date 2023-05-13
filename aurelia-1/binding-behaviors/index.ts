@@ -3,13 +3,6 @@ import { PLATFORM } from 'aurelia-pal';
 
 export function configure(config: FrameworkConfiguration): void {
   config.globalResources([
-    PLATFORM.moduleName('./elements/car-gal-element')
+    PLATFORM.moduleName('./bindings/integer-input'),
   ]);
 }
-
-export interface ICargalImg {
-  src: string;
-  srcSet?: string;
-  title: string;
-  desc: string;
-};

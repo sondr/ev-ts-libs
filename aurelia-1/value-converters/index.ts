@@ -7,6 +7,7 @@ export function configure(config: FrameworkConfiguration): void {
     PLATFORM.moduleName('./converters/join'),
     PLATFORM.moduleName('./converters/luxon-datetime'),
     PLATFORM.moduleName('./converters/numberformat'),
+    PLATFORM.moduleName('./converters/numeral'),
     PLATFORM.moduleName('./converters/take'),
     PLATFORM.moduleName('./converters/sort'),
     PLATFORM.moduleName('./converters/sum')

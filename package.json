@@ -1,6 +1,6 @@
 {
   "name": "au1-ts-libs",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Aurelia 1 typescript libraries/plugins",
   "main": "index.ts",
   "scripts": {
@@ -16,7 +16,8 @@
     "chart.js": "^2.0.0",
     "cropperjs": "^1.0.0",
     "flatpickr": "^4.0.0",
-    "luxon": "^2.0.0||^3.0.0"
+    "luxon": "^2.0.0||^3.0.0",
+    "numeral": "^2.0.0"
   },
   "devDependencies": {
     "@types/chart.js": "2.9.37",
