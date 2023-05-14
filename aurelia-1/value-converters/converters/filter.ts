@@ -12,6 +12,7 @@ const FILTER_MODES: IFilterMode = {
     '<': { fn: (a: string, b: string) => a < b, stringify: true },
     '==': { fn: (a: string, b: string) => a == b, stringify: true },
     '===': { fn: (a: any, b: any) => a == b, stringify: false },
+    '!=': { fn: (a: string, b: string) => a != b, stringify: false },
 
     // Expects b as array as well
     'Array.some': {
