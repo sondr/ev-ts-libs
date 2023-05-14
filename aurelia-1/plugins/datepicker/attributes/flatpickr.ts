@@ -41,6 +41,7 @@ export interface IOptions extends Options { }
 
 const observedPropKeys = [
     nameof<FlatpickrCustomAttribute>(e => e.type),
+    nameof<FlatpickrCustomAttribute>(e => e.dateFormat),
     nameof<FlatpickrCustomAttribute>(e => e.minDate),
     nameof<FlatpickrCustomAttribute>(e => e.maxDate),
     nameof<FlatpickrCustomAttribute>(e => e.locale),
@@ -56,6 +57,7 @@ export class FlatpickrCustomAttribute {
     private resetPicker: boolean = false;
     rangeElement: HTMLInputElement;
 
+    @bindable dateFormat: string;
     @bindable use24H: boolean = true;
     @bindable locale: string = 'no';
     // localeChanged() {
@@ -194,6 +196,9 @@ export class FlatpickrCustomAttribute {
 
         if (this.locale) {
             opts.locale = this.locale as any;
+        }
+        if(this.dateFormat){
+            opts.dateFormat = this.dateFormat;
         }
         opts.time_24hr = this.use24H;
         opts.minDate = dateParse(this.minDate);
