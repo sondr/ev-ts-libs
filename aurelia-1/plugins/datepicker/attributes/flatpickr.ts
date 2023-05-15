@@ -75,21 +75,12 @@ export class FlatpickrCustomAttribute {
     }
     @bindable rangeValue: Date | string;
     @bindable options: Options;
-    // optionsChanged(options: Options) {
-    //     if (!this.el || !options) return;
-
-    //     this.refresh();
-    // }
     @bindable rangeElementId: string;
 
     @bindable private onUpdate: (response: any) => void;
     @bindable private onChange: (response: any) => void;
     @bindable private onClose: (response: any) => void;
-
     @bindable type: DatepickerType = 'date-time';
-    // typeChanged(t: DatepickerType, prevType?: DatepickerType) {
-    //     this.refresh();
-    // }
 
     private refreshTimer: number;
     refresh() {
@@ -106,18 +97,6 @@ export class FlatpickrCustomAttribute {
         }, 10)
 
     }
-
-    //@bindable private enableTime: boolean;
-    // enableTimeChanged(val: boolean, oldVal: boolean) {
-    //     const currentDate = typeof (this.value) == 'string' ? new Date(this.value) : this.value;
-    //     if (!val && currentDate) currentDate.setHours(0, 0, 0, 0);
-    //     this.reset({
-    //         enableTime: !!val,
-    //         defaultDate: currentDate
-    //     });
-    // }
-
-
 
     constructor(
         private readonly element: HTMLInputElement,
@@ -191,18 +170,17 @@ export class FlatpickrCustomAttribute {
     }
 
     buildOptions(o?: Options) {
-        const now = new Date(Date.now());
-        let opts: Options = Object.assign({}, defaultOpts, this.getTypeOptions(this.type));
+        let opts: Options = Object.assign({}, defaultOpts, this.options ?? {}, this.getTypeOptions(this.type));
 
         if (this.locale) {
             opts.locale = this.locale as any;
         }
-        if(this.dateFormat){
+        if (this.dateFormat) {
             opts.dateFormat = this.dateFormat;
         }
         opts.time_24hr = this.use24H;
-        opts.minDate = dateParse(this.minDate);
-        opts.maxDate = dateParse(this.maxDate);
+        if (this.minDate) { opts.minDate = dateParse(this.minDate); }
+        if (this.maxDate) { opts.maxDate = dateParse(this.maxDate);}
 
         console.log(opts);
         console.log(this);
