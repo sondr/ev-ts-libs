@@ -72,6 +72,7 @@ export class FlatpickrCustomAttribute {
         if (isSetByPicker) { return; }
 
         this.el.setDate(date);
+        this.el.jumpToDate(date)
     }
     @bindable rangeValue: Date | string;
     @bindable options: Options;
