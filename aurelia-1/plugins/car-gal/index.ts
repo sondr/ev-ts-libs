@@ -6,10 +6,3 @@ export function configure(config: FrameworkConfiguration): void {
     PLATFORM.moduleName('./elements/car-gal-element')
   ]);
 }
-
-export interface ICargalImg {
-  src: string;
-  srcSet?: string;
-  title: string;
-  desc: string;
-};
