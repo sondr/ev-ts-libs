@@ -1,4 +1,4 @@
-import '../style.scss';
+import './styles.scss';
 
 import { CarGal } from './car-gal';
 import { Config } from './interfaces';

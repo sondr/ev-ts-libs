@@ -5,8 +5,6 @@ import { cargalDefaultOpts } from '../config/options';
 import * as ICarGal from '../../../../libs/car-gal/interfaces';
 import * as Cargal from '../../../../libs/car-gal';
 
-import '../../../../libs/car-gal/styles.scss';
-
 @customElement('car-gal')
 export class CarouselCustomElement {
   el: HTMLDivElement;
