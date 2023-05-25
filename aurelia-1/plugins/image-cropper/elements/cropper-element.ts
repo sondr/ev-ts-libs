@@ -1,8 +1,11 @@
 import { customElement, bindable, bindingMode } from 'aurelia-framework';
 import Cropper from 'cropperjs';
+import mime from 'mime-types';
+
+export interface IOptions<T extends EventTarget> extends Cropper.Options<T> { }
 
 @customElement('cropper')
-export class CropperCustomElement {
+export class CropperCustomElement<T extends EventTarget> {
     public element: HTMLImageElement;
     public cropper: Cropper;
 
@@ -13,10 +16,16 @@ export class CropperCustomElement {
         }
     }
 
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public responsive: boolean = true;
-    @bindable({ defaultBindingMode: bindingMode.oneTime }) public maxHeight: Number = 85;
+    @bindable({ defaultBindingMode: bindingMode.oneTime }) public elementCss: Partial<CSSStyleDeclaration> = {
+        height: 'auto',
+        width: '100%',
+        maxHeight: '85vh !important'
+    };
 
-    @bindable({ defaultBindingMode: bindingMode.toView }) public options: Cropper.Options<any>;
+    //@bindable({ defaultBindingMode: bindingMode.oneTime }) public responsive: boolean = true;
+    //@bindable({ defaultBindingMode: bindingMode.oneTime }) public maxHeight: Number = 85;
+
+    @bindable({ defaultBindingMode: bindingMode.toView }) public options: IOptions<T>;
     @bindable({ defaultBindingMode: bindingMode.toView }) public src: string;
     @bindable({ defaultBindingMode: bindingMode.toView }) public title: string;
 
@@ -32,36 +41,32 @@ export class CropperCustomElement {
         this.cropper.destroy();
     }
 
-    public getData() {
+    public toLog() {
         console.log("CropBoxData", this.cropper.getCropBoxData());
         console.log("getData", this.cropper.getData());
         console.log("getImageData", this.cropper.getImageData());
         console.log("getCanvasData", this.cropper.getCanvasData());
     }
 
-    public getFile(filename?: string, mimeType: string = 'image/jpeg'): Promise<File> {
-        if (this.cropper) {
-
-            return new Promise((res, rej) => {
-                this.cropper.getCroppedCanvas().toBlob((b => {
-                    res(new File([b!], filename || "file.png"));
-                }), mimeType);
-            });
-
-        }
-
-        return new Promise((res, rej) => rej());
+    public toFile(filename?: string, mimeType: string = 'image/jpeg'): Promise<File> {
+        const promise = new Promise<File>((resolve, reject) => {
+            if (this.cropper) {
+                const extension = mime.extension(mimeType);
+                this.cropper
+                    .getCroppedCanvas()
+                    .toBlob((b => {
+                        resolve(new File([b!], filename || `file.${extension ?? 'jpeg'}`));
+                    }), mimeType);
+            } else {
+                reject();
+            }
+        });
+        return promise;
     }
 
-    public getDataUrl(mimeType: string = 'image/jpeg'): string | undefined {
-        //mimeType = mimeType || 'image/jpeg';
-        if (this.cropper) {
-            return this.cropper
-                .getCroppedCanvas()
-                .toDataURL(mimeType);
-        }
-
-        return undefined;
+    public toDataUrl(mimeType: string = 'image/jpeg'): string | undefined {
+        return this.cropper?.getCroppedCanvas()
+            .toDataURL(mimeType);
     }
 
     loaded($event) {
@@ -69,7 +74,7 @@ export class CropperCustomElement {
     }
 
     private init() {
-        let defaultOptions: Cropper.Options<any> = {
+        let defaultOptions: IOptions<any> = {
             viewMode: 0, // 2 //CropperViewMods.CropBoxIsJustWithInTheContainer,
             dragMode: this.dragMode, //<any>'crop', // crop | move | none
             //aspectRatio: NaN,
