@@ -1,6 +1,6 @@
 import { customElement, bindable, bindingMode } from 'aurelia-framework';
 import Cropper from 'cropperjs';
-import mime from 'mime-types';
+import { mimes } from '../../../../core/mime/mime-types';
 
 export interface IOptions<T extends EventTarget> extends Cropper.Options<T> { }
 
@@ -51,7 +51,7 @@ export class CropperCustomElement<T extends EventTarget> {
     public toFile(filename?: string, mimeType: string = 'image/jpeg'): Promise<File> {
         const promise = new Promise<File>((resolve, reject) => {
             if (this.cropper) {
-                const extension = mime.extension(mimeType);
+                const extension = mimes.image.findExtension(mimeType);
                 this.cropper
                     .getCroppedCanvas()
                     .toBlob((b => {
