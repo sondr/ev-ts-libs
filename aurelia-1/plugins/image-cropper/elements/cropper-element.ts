@@ -2,6 +2,9 @@ import { customElement, bindable, bindingMode } from 'aurelia-framework';
 import Cropper from 'cropperjs';
 import { mimes } from '../../../../core/mime/mime-types';
 
+import 'cropperjs/dist/cropper.min.css';
+
+
 export interface IOptions<T extends EventTarget> extends Cropper.Options<T> { }
 
 @customElement('cropper')
