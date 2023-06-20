@@ -2,6 +2,11 @@ import { Carousel } from "./module/carousel";
 import { Fullscreen } from "./module/fullscreen";
 import { CgElement } from "./dom/utils";
 
+export interface ICarGalInstance {
+    dispose: () => void;
+    galleries: IGallery[];
+}
+
 export interface ICreateElementObject {
     elementTagOrElement: string | HTMLElement;
     classes?: string;

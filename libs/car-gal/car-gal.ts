@@ -3,17 +3,17 @@ import { _CLASSNAMES, _EVENT_ACTIONS, _HTML, _TYPES, _DATA_SETS } from './consta
 import { Carousel } from './module/carousel';
 import { PLATFORM, _PLATFORM } from './platform';
 import { createElement, convertToMediaObjects, findElement, deepObjectAssign, progressiveImageLoad } from './dom/utils';
-import { IGallery, Config, IMedia, Options, GalleryInstance } from './interfaces';
+import { IGallery, Config, IMedia, Options, GalleryInstance, ICarGalInstance } from './interfaces';
 
 let galleryId: number = 1;
 
 
 interface IEventListenerObject { action: string, handler: any, vars?: any, options?: any };
 
-export class CarGal {
+export class CarGal implements ICarGalInstance {
 
     private eventListeners: IEventListenerObject[] = [];
-    private galleries: IGallery[] = [];
+    public galleries: IGallery[] = [];
     private fullscreenGalleryindex?: number;
 
     constructor(config: Config) {

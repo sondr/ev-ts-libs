@@ -1,6 +1,6 @@
 {
   "name": "au1-ts-libs",
-  "version": "0.3.3",
+  "version": "0.3.4",
   "description": "Aurelia 1 typescript libraries/plugins",
   "main": "index.ts",
   "scripts": {
@@ -14,7 +14,7 @@
     "aurelia-event-aggregator": "^1.0.0",
     "aurelia-framework": "^1.0.0",
     "aurelia-loader-nodejs": "^1.0.0",
-    "aurelia-pal-nodejs": "^2.0.0||^3.0.0-rc.1",
+    "aurelia-pal-nodejs": "^1.0.0||^2.0.0||^3.0.0-rc.1",
     "chart.js": "^2.0.0",
     "cropperjs": "^1.0.0",
     "flatpickr": "^4.0.0",
