@@ -29,7 +29,7 @@ const styleDict: IStyleDict = {
 export class Carousel {
     public readonly fullScreen: Fullscreen;
     public readonly gallery: IGallery;
-    private thumbnails?: Thumbnails;
+    public thumbnails?: Thumbnails;
     private running: boolean = false;
     private intervalTimer: any;
     private activeIndex?: number;

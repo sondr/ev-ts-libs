@@ -55,7 +55,7 @@ export function getImageSrcSet(element: HTMLImageElement): ISrcSet[] | undefined
 
 export class CgElement {
     public parentElement: HTMLElement;
-    private readonly element: HTMLElement;
+    public readonly element: HTMLElement;
     public readonly children?: CgElement[];
     public readonly options: ICgElement;
 

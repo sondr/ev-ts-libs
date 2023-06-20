@@ -3,4 +3,7 @@ export interface ICargalImg {
     srcSet?: string;
     title: string;
     desc: string;
+    alt?:string;
+    width?:string;
+    height?:string;
   };

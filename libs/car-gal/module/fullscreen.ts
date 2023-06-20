@@ -11,7 +11,7 @@ export class Fullscreen {
     private readonly images: IMedia[];
     private readonly carousel: Carousel;
     private readonly menubar: CgElement;
-    private element?: CgElement;
+    public element?: CgElement;
     private carouselContainer?: CgElement;
     private options: Options;
 

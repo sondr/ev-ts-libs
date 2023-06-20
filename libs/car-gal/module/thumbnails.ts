@@ -8,7 +8,7 @@ export class Thumbnails {
     private active: boolean;
     private carousel: Carousel;
 
-    private model: CgElement;
+    public model: CgElement;
     private thumbnailList?: CgElement;
 
     constructor(carousel: Carousel) {
