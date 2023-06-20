@@ -98,10 +98,14 @@ export class Thumbnails {
             thumbnailList.children!.push({
                 tagName: _HTML.Tags.li,
                 classes: _CLASSNAMES.item, children: [{
-                    tagName: _HTML.Tags.img, attr: [
+                    tagName: _HTML.Tags.img,
+                    attr: [
                         [_HTML.Attr.src, imgEl.src],
-                        [_HTML.Attr.srcSet, imgEl.srcset]
-                    ],
+                        [_HTML.Attr.srcSet, imgEl.srcset],
+                        [_HTML.Attr.width, imgEl.width ? String(imgEl.width) : ''],
+                        [_HTML.Attr.height, imgEl.height ? String(imgEl.height) : ''],
+                        [_HTML.Attr.alt, imgEl.alt],
+                    ].filter(e => e[1]),
                     eventListeners: [{ action: _EVENT_ACTIONS.click, handler: e => { this.carousel.set_active(index); } }]
                 }]
             });

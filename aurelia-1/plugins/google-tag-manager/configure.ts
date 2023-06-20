@@ -5,6 +5,8 @@ export interface OptionsInterface {
     trackCurrentPageOnEnable: boolean;
     pageTracking: PropertyOptionsInterface;
     logging: PropertyOptionsInterface;
+    async:boolean,
+    defer:boolean,
     [key: string]: string | boolean | PropertyOptionsInterface;
 }
 
@@ -43,7 +45,9 @@ export class Configure {
             resetDatalayerOnPageChange: true,
             trackCurrentPageOnEnable: true,
             pageTracking: new PropertyOption(true, 'PageView'),
-            logging: new PropertyOption()
+            logging: new PropertyOption(),
+            async: false,
+            defer:true
         };
     }
 

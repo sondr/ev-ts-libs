@@ -60,7 +60,10 @@ export const _HTML = {
     },
     Attr:{
         src: 'src',
-        srcSet: 'srcset'
+        srcSet: 'srcset',
+        width: 'width',
+        height: 'height',
+        alt: 'alt'
     }
 };
 

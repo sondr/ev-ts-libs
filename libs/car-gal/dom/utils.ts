@@ -95,8 +95,11 @@ export class CgElement {
 
     private init() {
         if (this.options.eventListeners && this.options.eventListeners.length > 0) {
-            this.options.eventListeners!.forEach(el =>
-                this.element.addEventListener(el.action, <EventListenerOrEventListenerObject>el.handler))
+            this.options.eventListeners!.forEach(el => {
+                // if action passive listener el.action == 
+                this.element.addEventListener(el.action, <EventListenerOrEventListenerObject>el.handler);
+
+            })
         }
 
         this.setParent(this.parentElement);
