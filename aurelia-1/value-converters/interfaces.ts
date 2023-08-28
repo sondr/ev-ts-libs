@@ -32,3 +32,8 @@ export interface ISortOptions extends IValueConverterOptions {
     key?: string;
     asc: boolean;
 }
+
+export interface IDateTimeValueConverterConfig extends IValueConverterOptions {
+    defaultFormat: string;
+    locale?: string;
+  }

@@ -1,5 +1,6 @@
 import { valueConverter } from 'aurelia-framework';
 import { DateTime, DateTimeOptions } from 'luxon';
+import { IDateTimeValueConverterConfig } from '../interfaces';
 
 
 // usage: | DateTime : 'dd.LL.yyyy'
@@ -7,7 +8,26 @@ import { DateTime, DateTimeOptions } from 'luxon';
 export class DatetimeValueConverter {
     toView = DatetimeValueConverter.convert;
 
-    public static convert(date: string | Date, format: string = 'dd.LL.yyyy', locale?: string) {
+
+    public static readonly config: IDateTimeValueConverterConfig = {
+        defaultFormat: 'dd LL yyyy',
+        locale: undefined
+      }
+      
+      public static setConfig(cb: (config: IDateTimeValueConverterConfig) => void) {
+        cb(this.config);
+      }
+
+      
+
+      public static convert(date: string | Date, format?: string, locale?: string) {
+        if (!format) {
+          format = DatetimeValueConverter.config.defaultFormat;
+        }
+        if (!locale) {
+          locale = DatetimeValueConverter.config.locale;
+        }
+        
         let opts: DateTimeOptions = {};
         if (locale) { opts.locale = locale; }
 
@@ -18,3 +38,4 @@ export class DatetimeValueConverter {
         return dt.toFormat(format);
     }
 }
+
