@@ -25,9 +25,12 @@ export class ElementManager implements IElementTogglerArgs {
 
   private get mutableProperties(): IElementTogglerArgs {
     return {
+      el: this.el,
       attrs: this.attrs,
       classes: this.classes,
-      css: this.css
+      css: this.css,
+      listeners:this.listeners,
+      data: this.data,
     };
   };
 
@@ -36,7 +39,7 @@ export class ElementManager implements IElementTogglerArgs {
       attrs: Object.assign({}, this.attrs ?? {}),
       classes: this.classes?.slice() ?? [],
       css: Object.assign({}, this.css ?? {}),
-      listeners: this.listeners
+      data: this.data
     } as IElementTogglerArgs;
   }
 
