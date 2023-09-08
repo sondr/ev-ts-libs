@@ -42,15 +42,6 @@ export class ElementManager implements IElementTogglerArgs {
     this.el = el;
   }
 
-
-
-  public build() {
-    if (this.applyCb) {
-      this.applyCb(this);
-    }
-    return this;
-  }
-
   replace(cb: (args: IElementTogglerArgs) => void, cleanPrevious: boolean = true) {
     let current = this.mutableProperties;
     cb(current);
@@ -58,16 +49,11 @@ export class ElementManager implements IElementTogglerArgs {
     if (cleanPrevious) { this.remove(); }
     this.setProperties(current);
     this.apply();
+
+    return this;
   }
 
-
-  private applyCb?: (args: IElementTogglerArgs) => void;
-  public beforeApply(cb: (args: IElementTogglerArgs) => void) {
-    this.applyCb = cb;
-    return this;
-  };
   public apply() {
-    if (this.applyCb) { this.applyCb({}); }
     return this
       .applyListeners()
       .applyClass()
@@ -121,7 +107,6 @@ export class ElementManager implements IElementTogglerArgs {
 
   dispose() {
     this.removeListeners();
-    this.applyCb = undefined;
 
     this.setProperties({
       el: undefined,
