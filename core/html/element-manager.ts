@@ -1,5 +1,6 @@
 import { addAttrs, removeAttrs } from "./element-attributer";
 import { addClasses, removeClasses } from "./element-classer";
+import { IElementTogglerListener, addEventListeners, removeEventListeners } from "./element-listening";
 import { addStyles, removeStyles } from "./element-styler";
 
 export class ElementManager implements IElementTogglerArgs {
@@ -130,18 +131,7 @@ export class ElementManager implements IElementTogglerArgs {
 
 }
 
-export function removeEventListeners(el?: HTMLElement, events?: IElementTogglerListener[]) {
-  if (el && events?.length) {
-    events.forEach(e => {
-      el?.removeEventListener(e.key, e.event, e.options);
-    });
-  }
-}
-export function addEventListeners(el?: HTMLElement, events?: IElementTogglerListener[]) {
-  if (el && events?.length) {
-    events.forEach(e => el.addEventListener(e.key, e.event, e.options));
-  }
-}
+
 
 
 
@@ -157,8 +147,3 @@ export interface IElementTogglerArgs {
   data?: any;
 }
 
-export interface IElementTogglerListener {
-  key: string;
-  event: <K extends keyof HTMLElementEventMap>(ev: HTMLElementEventMap[K]) => any;
-  options?: boolean | AddEventListenerOptions;
-}
