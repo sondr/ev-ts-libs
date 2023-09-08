@@ -10,7 +10,7 @@ export class DatetimeValueConverter {
 
 
     public static readonly config: IDateTimeValueConverterConfig = {
-        defaultFormat: 'dd LL yyyy',
+        defaultFormat: 'dd. LL yyyy',
         locale: undefined
       }
       
@@ -27,7 +27,7 @@ export class DatetimeValueConverter {
         if (!locale) {
           locale = DatetimeValueConverter.config.locale;
         }
-        
+
         let opts: DateTimeOptions = {};
         if (locale) { opts.locale = locale; }
 
