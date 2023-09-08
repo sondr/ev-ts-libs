@@ -3,23 +3,6 @@ import { addClasses, removeClasses } from "./element-classer";
 import { addStyles, removeStyles } from "./element-styler";
 
 export class ElementManager implements IElementTogglerArgs {
-  private get mutableProperties(): IElementTogglerArgs {
-    return {
-      attrs: this.attrs,
-      classes: this.classes,
-      css: this.css
-    };
-  };
-
-  public get properties() {
-    return {
-      attrs: Object.assign({}, this.attrs ?? {}),
-      classes: this.classes?.slice() ?? [],
-      css: Object.assign({}, this.css ?? {}),
-      listeners: this.listeners
-    } as IElementTogglerArgs;
-  }
-
   el?: HTMLElement;
   attrs: { [key: string]: string };
   css: Partial<CSSStyleDeclaration>;
@@ -37,29 +20,43 @@ export class ElementManager implements IElementTogglerArgs {
     this.data = args?.data;
   }
 
-  setElement(el: HTMLElement, cleanPrevious: boolean = true) {
+  private get mutableProperties(): IElementTogglerArgs {
+    return {
+      attrs: this.attrs,
+      classes: this.classes,
+      css: this.css
+    };
+  };
+
+  public get properties() {
+    return {
+      attrs: Object.assign({}, this.attrs ?? {}),
+      classes: this.classes?.slice() ?? [],
+      css: Object.assign({}, this.css ?? {}),
+      listeners: this.listeners
+    } as IElementTogglerArgs;
+  }
+
+  public setElement(el: HTMLElement, cleanPrevious: boolean = true) {
     if (cleanPrevious) { this.remove(); }
     this.el = el;
   }
 
-  replace(cb: (args: IElementTogglerArgs) => void, cleanPrevious: boolean = true) {
+
+  public apply(cb?: (args: IElementTogglerArgs) => void, cleanPrevious: boolean = true) {
     let current = this.mutableProperties;
-    cb(current);
-
+    if (cb) { cb(current); }
     if (cleanPrevious) { this.remove(); }
+
     this.setProperties(current);
-    this.apply();
 
-    return this;
-  }
-
-  public apply() {
     return this
       .applyListeners()
       .applyClass()
       .applyCss()
       .applyAttrs();
   }
+
   public remove() {
     return this
       .removeListeners()
@@ -68,7 +65,17 @@ export class ElementManager implements IElementTogglerArgs {
       .removeAttrs();
   }
 
+  public dispose() {
+    this.removeListeners();
 
+    this.setProperties({
+      el: undefined,
+      attrs: {},
+      classes: [],
+      css: {},
+      listeners: []
+    });
+  }
 
   private removeListeners() {
     removeEventListeners(this.el, this.listeners);
@@ -105,17 +112,7 @@ export class ElementManager implements IElementTogglerArgs {
     return this;
   }
 
-  dispose() {
-    this.removeListeners();
 
-    this.setProperties({
-      el: undefined,
-      attrs: {},
-      classes: [],
-      css: {},
-      listeners: []
-    });
-  }
 
 }
 
