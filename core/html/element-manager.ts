@@ -3,6 +3,9 @@ import { addClasses, removeClasses } from "./element-classer";
 import { addStyles, removeStyles } from "./element-styler";
 
 export class ElementManager implements IElementTogglerArgs {
+  private _counter: number = 0;
+  public get counter() { return this._counter; }
+
   el?: HTMLElement;
   attrs: { [key: string]: string };
   css: Partial<CSSStyleDeclaration>;
@@ -50,11 +53,19 @@ export class ElementManager implements IElementTogglerArgs {
 
     this.setProperties(current);
 
-    return this
+    this
       .applyListeners()
       .applyClass()
       .applyCss()
-      .applyAttrs();
+      .applyAttrs()
+      .count();
+
+    return this;
+  }
+
+  private count() {
+    this._counter++;
+    return this;
   }
 
   public remove() {
