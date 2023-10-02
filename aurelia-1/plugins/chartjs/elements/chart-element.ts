@@ -22,7 +22,7 @@ export class ChartElement {
   _chartData;
 
   constructor(
-    private readonly _modelObserver
+    private readonly _modelObserver: ModelObserver
     ) {
     //this._modelObserver = _modelObserver;
   }
