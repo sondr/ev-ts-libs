@@ -153,16 +153,16 @@ export class AuObserver {
 
 
 export module AureliaObserver {
-  interface IOnChange {
+  interface IOnChange<K extends keyof GlobalEventHandlersEventMap> {
     key?: string | number;
-    onChange: (args?) => any;
+    onChange: (args?: any) => any;
     throttleTimer?: number;
   }
   interface IThrottleTimeoutId {
     throttleTimeoutId?: number;
   }
 
-  export interface IAddEventListenerArgs extends IOnChange {
+  export interface IAddEventListenerArgs extends IOnChange<keyof GlobalEventHandlersEventMap> {
     type: keyof GlobalEventHandlersEventMap;
     element?: GlobalEventHandlers;
     options?: AddEventListenerOptions;
@@ -175,7 +175,7 @@ export module AureliaObserver {
     //throttleTimeoutId?: number;
   }
 
-  export interface IModelObserverArgs extends IOnChange {
+  export interface IModelObserverArgs extends IOnChange<keyof GlobalEventHandlersEventMap> {
     model: any;
   }
 

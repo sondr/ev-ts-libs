@@ -12,6 +12,7 @@ Chart.register(...registerables);
 </template>`)
 @customElement('chart')
 export class ChartJsComponent implements ChartConfiguration {
+  canvasSize: { w: number, h: number; } = { w: 0, h: 0 };
   plugins?: Plugin[];
 
   @bindable type: ChartType;
@@ -45,22 +46,32 @@ export class ChartJsComponent implements ChartConfiguration {
     this.dispose();
   }
 
-
+  throttleTimer = 100;
   setup() {
     this.chart = new Chart(this.canvas, {
       type: this.type,
       data: this.data,
-      plugins: this.plugins
+      plugins: this.plugins,
+
     });
-    //const div = document.createElement('div');
+
     this.modelObserver.addListener({
       type: 'resize',
-      onChange: (event) => {
-        this.chart?.resize();
+      onChange: (event: GlobalEventHandlersEventMap['resize']) => {
+        this.resize();
       },
-      throttleTimer: 100
+      throttleTimer: this.throttleTimer
     });
-    //this.toggleObservation(this.observe);
+  }
+
+
+  lastResize: number;
+  resize() {
+    const now = new Date().getMilliseconds();
+    if (!this.lastResize || (now - this.lastResize) > (this.throttleTimer * 2.5)) {
+      this.chart?.resize();
+      this.lastResize = now;
+    }
   }
 
   refresh() {
@@ -69,20 +80,6 @@ export class ChartJsComponent implements ChartConfiguration {
     this.chart.update();
     this.chart.resize();
   }
-
-  //toggleObservation(observe: boolean) {
-  //  if (observe) {
-  //    this.modelObserver.addModelObserver({
-  //      model: this.data,
-  //      onChange: this.onChange,
-  //      throttleTimer: 200
-  //    });
-  //    this.refresh();
-  //  } else {
-  //    this.modelObserver.dispose();
-  //  }
-  //}
-
 
   dispose() {
     this.modelObserver?.dispose();
