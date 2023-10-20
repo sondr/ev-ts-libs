@@ -1,18 +1,25 @@
 import { customElement, bindable, inlineView } from 'aurelia-framework';
 import { Chart, ChartType, ChartConfiguration, BubbleDataPoint, ChartData, ChartTypeRegistry, Plugin, Point, ChartOptions, registerables } from 'chart.js';
 import { AuObserver } from './model-observer';
+import { Timeouter } from '../../common/timeout-intervaller';
 
 //Chart.register(LineController, DoughnutController)
 Chart.register(...registerables);
 
 @inlineView(`<template>
-<div css.bind="css" class.bind="class" style="display:block;min-width:0;">
-  <canvas ref="canvas" class="h-100 w-100" style="margin:auto;"></canvas>
+<div ref="container"
+     css.bind="css" 
+     class.bind="class" 
+     style="display:block;min-width:0;">
+  <canvas ref="canvas" 
+          class="h-100 w-100" 
+          style="margin:auto;">
+  </canvas>
 </div>
 </template>`)
 @customElement('chart')
 export class ChartJsComponent implements ChartConfiguration {
-  canvasSize: { w: number, h: number; } = { w: 0, h: 0 };
+  container: HTMLDivElement;
   plugins?: Plugin[];
 
   @bindable type: ChartType;
@@ -52,26 +59,22 @@ export class ChartJsComponent implements ChartConfiguration {
       type: this.type,
       data: this.data,
       plugins: this.plugins,
-
+      options: {
+        responsive: false
+      }
     });
 
-    this.modelObserver.addListener({
-      type: 'resize',
-      onChange: (event: GlobalEventHandlersEventMap['resize']) => {
-        this.resize();
-      },
-      throttleTimer: this.throttleTimer
-    });
-  }
+    const onChange = (event: GlobalEventHandlersEventMap['resize']) => {
+      this.resize();
+    };
 
+    this.modelObserver.addListener({ type: 'resize', onChange, throttleTimer: this.throttleTimer });
+    // this.modelObserver.addListener({ element: this.container, type: 'resize', onChange, throttleTimer: this.throttleTimer }); // add resizeobserver
+    const timouter = new Timeouter();
+    timouter.start(() => {
+      this.resize();
+    }, this.throttleTimer);
 
-  lastResize: number;
-  resize() {
-    const now = new Date().getMilliseconds();
-    if (!this.lastResize || (now - this.lastResize) > (this.throttleTimer * 2.5)) {
-      this.chart?.resize();
-      this.lastResize = now;
-    }
   }
 
   refresh() {
@@ -80,6 +83,16 @@ export class ChartJsComponent implements ChartConfiguration {
     this.chart.update();
     this.chart.resize();
   }
+
+  lastResize: number;
+  resize() {
+    const now = new Date().getTime();
+    if (!this.lastResize || (now - this.lastResize) > (this.throttleTimer * 2.5)) {
+      this.chart?.resize();
+      this.lastResize = now;
+    }
+  }
+
 
   dispose() {
     this.modelObserver?.dispose();

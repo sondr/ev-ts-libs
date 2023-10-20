@@ -2,19 +2,22 @@ import { inject, OverrideContext, Parser, valueConverter } from 'aurelia-framewo
 import { FilterMode, IFilterOptions } from '../interfaces';
 
 const FILTER_MODES: IFilterMode = {
+    // String
     'exact': { fn: (a: string, b: string) => a === b, stringify: true },
     'startsWith': { fn: (a: string, b: string) => a.startsWith(b), stringify: true },
     'endsWith': { fn: (a: string, b: string) => a.endsWith(b), stringify: true },
     'contains': { fn: (a: string, b: string) => a.indexOf(b) >= 0, stringify: true },
-    '>=': { fn: (a: string, b: string) => a >= b, stringify: true },
-    '>': { fn: (a: string, b: string) => a > b, stringify: true },
-    '<=': { fn: (a: string, b: string) => a <= b, stringify: true },
-    '<': { fn: (a: string, b: string) => a < b, stringify: true },
-    '==': { fn: (a: string, b: string) => a == b, stringify: true },
-    '===': { fn: (a: any, b: any) => a == b, stringify: false },
-    '!=': { fn: (a: string, b: string) => a != b, stringify: false },
 
-    // Expects b as array as well
+    // Numbers
+    '>=': { fn: <T>(a: T, b: T) => a >= b, stringify: false },
+    '>': { fn: <T>(a: T, b: T) => a > b, stringify: false },
+    '<=': { fn: <T>(a: T, b: T) => a <= b, stringify: false },
+    '<': { fn: <T>(a: T, b: T) => a < b, stringify: false },
+    '==': { fn: <T>(a: T, b: T) => a == b, stringify: false },
+    '===': { fn: <T>(a: T, b: T) => a == b, stringify: false },
+    '!=': { fn: <T>(a: T, b: T) => a != b, stringify: false },
+
+    // Arrays
     'Array.some': {
         fn: (a: string[], b: string[]) => (a || []).some(x => b.includes(x)),
         stringify: false,
@@ -35,7 +38,7 @@ const FILTER_MODES: IFilterMode = {
         fn: (a: string[], b: string) => !(a || []).includes(b),
         stringify: false,
         isArray: true
-    },
+    }
 };
 
 
@@ -66,26 +69,27 @@ export class FilterValueConverter {
 
         let filteredArr: any[];
 
-        const m = FILTER_MODES[mode];
+        const FILTERMODE = FILTER_MODES[mode];
 
-        if (m.isArray) {
+        if (FILTERMODE.isArray) {
             filteredArr = arr.filter(entry =>
-                properties.some(p => m.fn(queries, entry[p])));
+                properties.some(p => FILTERMODE.fn(queries, entry[p])));
         }
         else {
 
-            const stringify = FILTER_MODES[mode].stringify;
+            const stringify = FILTERMODE.stringify;
             const settingsFn = term => stringify ? String(term).toLowerCase() : term;
 
             const propExpressions = (Array.isArray(opts.props) ? opts.props : [opts.props]).map((p) => this.parser.parse(p)),
                 terms = queries.map(query => stringify ? String(query).toLowerCase() : query);
 
             filteredArr = arr.filter((entry: any) =>
-                propExpressions.some((propExp) =>
-                    terms.some(t =>
-                        //FILTER_MODES[mode].fn(settingsFn(propExp.evaluate({ bindingContext: entry, overrideContext: null })), t)
-                        FILTER_MODES[mode].fn(settingsFn(propExp.evaluate({ bindingContext: entry, overrideContext: null as unknown as OverrideContext })), t)
-                    )));
+                propExpressions.some(propExp => {
+                    const evaluated = propExp.evaluate({ bindingContext: entry, overrideContext: null as unknown as OverrideContext });
+                    return terms.some(t =>
+                        FILTERMODE.fn(settingsFn(evaluated), t)
+                    );
+                }));
         }
 
         return opts.take && typeof opts.take === 'number' ?
