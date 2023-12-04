@@ -37,7 +37,9 @@ export class CustomInput {
   }
 
   attached() {
-    if (this.containerElement) { this.parentElement.appendChild(this.containerElement); }
+    if (this.containerElement) {
+      this.parentElement.appendChild(this.containerElement);
+    }
     this._view?.attached();
   }
 
@@ -63,6 +65,7 @@ export class CustomInput {
     }
 
     this.containerElement = this.createEl('div'); // DOM.createTemplateElement();
+
 
     // regular
     if (this.isRegular) {
@@ -98,9 +101,6 @@ export class CustomInput {
   valueBindString(addTriggerBehavior: boolean = true) {
     let triggerBehavior = this.trigger ?? '';
 
-    //let vstring = this.inputModel.propertyId.split('.').reduce((current, next) => { return `${current}['${next}']` },
-    //  nameof<CustomInput>(e => e.model)
-    //);
     if (!this.inputModel.propertyId) {
       return '';
     }
@@ -112,20 +112,17 @@ export class CustomInput {
       vstring = vstring + ' & validate';
     }
 
-    if(addTriggerBehavior){
+    if (addTriggerBehavior) {
       vstring = vstring + triggerBehavior;
     }
 
     return vstring;
   }
 
-  attachInputElement() {
-    const el = this.createEl('input');
+  setSharedBinds(el: HTMLElement) {
     el.setAttribute('id.bind', nameof<CustomInput>(e => e.inputModel.id));
-    el.setAttribute('type.bind', nameof<CustomInput>(e => e.inputModel.type));
     el.setAttribute('placeholder.bind', nameof<CustomInput>(e => e.inputModel.placeholder));
     el.setAttribute('class.bind', nameof<CustomInput>(e => e.inputModel.class));
-    //el.setAttribute('readonly.bind', nameof<CustomInput>(e => e.inputModel.readonly));
     el.setAttribute('disabled.bind', nameof<CustomInput>(e => e.inputModel.disabled));
 
     if (this.inputModel.type == 'checkbox') {
@@ -133,27 +130,31 @@ export class CustomInput {
     } else {
       el.setAttribute('value.two-way', this.valueBindString());
     }
-    //if (this.inputModel.elementAttributes) {
-    //  Object.keys()
-    //}
+  }
+
+  attachCustomElement(){
+    
+  }
+
+  attachInputElement() {
+    const el = this.createEl('input');
+
+    this.setSharedBinds(el);
+    el.setAttribute('type.bind', nameof<CustomInput>(e => e.inputModel.type));
 
     this.containerElement.appendChild(el);
   }
 
   attachTextareaElement() {
     const el = this.createEl('textarea');
-    //el.setAttribute('type.bind', nameof<CustomInput>(e => e.model.type));
-    el.setAttribute('id.bind', nameof<CustomInput>(e => e.inputModel.id));
-    el.setAttribute('placeholder.bind', nameof<CustomInput>(e => e.inputModel.placeholder));
-    el.setAttribute('class.bind', nameof<CustomInput>(e => e.inputModel.class));
-    //el.setAttribute('readonly.bind', nameof<CustomInput>(e => e.inputModel.readonly));
-    el.setAttribute('disabled.bind', nameof<CustomInput>(e => e.inputModel.disabled));
-    el.setAttribute('rows.bind', nameof<CustomInput>(e => e.inputModel.rows));
-    el.setAttribute('value.two-way', this.valueBindString());
 
+    this.setSharedBinds(el);
+    //el.setAttribute('readonly.bind', nameof<CustomInput>(e => e.inputModel.readonly));
+    el.setAttribute('rows.bind', nameof<CustomInput>(e => e.inputModel.rows));
 
     this.containerElement.appendChild(el);
   }
+
 
   attachSelectElement() {
     const el = this.createEl('select');
@@ -181,15 +182,6 @@ export class CustomInput {
 
     this.containerElement.appendChild(el);
   }
-
-  //attachDividerElement() {
-  //  const el = this.createEl('div');
-  //  el.setAttribute('class.bind', nameof<CustomInput>(e => e.inputModel.class));
-  //  el.innerHTML = interpolateSyntax(nameof<CustomInput>(e => e.inputModel.name));
-
-  //  this.containerElement.appendChild(el);
-  //}
-
 
   createEl(tag: DynamicInputType | 'div' | 'option' | 'input') {
     return DOM.createElement(tag);

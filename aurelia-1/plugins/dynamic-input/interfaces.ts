@@ -50,3 +50,7 @@ export interface ISelectOptionsProp {
   id: any;
   name: string;
 }
+
+export interface ICustomDynamicInput {
+  [key: string]: () => HTMLElement;
+}
