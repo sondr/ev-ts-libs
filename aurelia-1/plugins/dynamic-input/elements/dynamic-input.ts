@@ -1,6 +1,7 @@
 import { nameof } from '../../../../core';
 import { inject, bindable, bindingMode, inlineView, customElement, DOM, TemplatingEngine, View } from 'aurelia-framework';
-import { DynamicInputType, IDynamicInputModel, ISelectOption, regularInputs } from '../interfaces';
+import { CustomDynamicInputFunction, DynamicInputType, IDynamicInputModel, ISelectOption, regularInputs } from '../interfaces';
+import { DynamicInputConfig } from '../element-creator-config';
 
 const triggerBehaviors = {
   blur: " & updateTrigger:'blur'"
@@ -11,7 +12,7 @@ const triggerBehaviors = {
 @inlineView('<template></template>')
 @customElement('dynamic-input')
 //@containerless()
-@inject(DOM.Element, TemplatingEngine)
+@inject(DOM.Element, TemplatingEngine, DynamicInputConfig)
 export class CustomInput {
   private containerElement: HTMLElement;
   private _view: View;
@@ -25,7 +26,8 @@ export class CustomInput {
   // LIFECYCLE
   constructor(
     protected readonly parentElement: HTMLTemplateElement,
-    protected readonly te: TemplatingEngine
+    protected readonly te: TemplatingEngine,
+    protected readonly config: DynamicInputConfig
   ) { }
 
   bind() {
@@ -66,6 +68,11 @@ export class CustomInput {
 
     this.containerElement = this.createEl('div'); // DOM.createTemplateElement();
 
+    // custom
+    const customMethod = this.config?.find(type);
+    if (customMethod) {
+      this.attachCustomElement(customMethod);
+    }
 
     // regular
     if (this.isRegular) {
@@ -132,8 +139,9 @@ export class CustomInput {
     }
   }
 
-  attachCustomElement(){
-    
+  attachCustomElement(fn: CustomDynamicInputFunction) {
+    const el = fn();
+    this.containerElement.appendChild(el);
   }
 
   attachInputElement() {

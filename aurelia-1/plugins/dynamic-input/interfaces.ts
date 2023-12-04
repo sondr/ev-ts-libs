@@ -51,6 +51,8 @@ export interface ISelectOptionsProp {
   name: string;
 }
 
+
+export type CustomDynamicInputFunction = () => HTMLElement;
 export interface ICustomDynamicInput {
-  [key: string]: () => HTMLElement;
+  [key: string]: CustomDynamicInputFunction;
 }

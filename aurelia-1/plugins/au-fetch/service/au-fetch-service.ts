@@ -1,5 +1,5 @@
-import {  } from 'aurelia-fetch-client';
+// import {  } from 'aurelia-fetch-client';
 
-export class AuFetchService{
+// export class AuFetchService{
 
-}
+// }
