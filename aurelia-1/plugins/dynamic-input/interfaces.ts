@@ -1,3 +1,5 @@
+import { CustomInput } from "./elements/dynamic-input";
+
 export const regularInputs = [
     'text', 'number', 'email', 'tel', 'checkbox', 'password',  // defaults
     'color' //'date' // probable migration to own custom-elements
@@ -52,7 +54,7 @@ export interface ISelectOptionsProp {
 }
 
 
-export type CustomDynamicInputFunction = () => HTMLElement;
+export type CustomDynamicInputFunction = (input: CustomInput) => HTMLElement;
 export interface ICustomDynamicInput {
   [key: string]: CustomDynamicInputFunction;
 }

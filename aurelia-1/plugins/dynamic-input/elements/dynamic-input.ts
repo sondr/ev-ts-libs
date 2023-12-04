@@ -75,7 +75,7 @@ export class CustomInput {
     }
 
     // regular
-    if (this.isRegular) {
+    else if (this.isRegular) {
       this.attachInputElement();
     }
 
@@ -105,7 +105,7 @@ export class CustomInput {
   get isRegular() { return regularInputs.some(e => e == this.inputModel.type); }
 
 
-  valueBindString(addTriggerBehavior: boolean = true) {
+  buildValueString(addTriggerBehavior: boolean = true) {
     let triggerBehavior = this.trigger ?? '';
 
     if (!this.inputModel.propertyId) {
@@ -133,14 +133,14 @@ export class CustomInput {
     el.setAttribute('disabled.bind', nameof<CustomInput>(e => e.inputModel.disabled));
 
     if (this.inputModel.type == 'checkbox') {
-      el.setAttribute('checked.two-way', this.valueBindString(false));
+      el.setAttribute('checked.two-way', this.buildValueString(false));
     } else {
-      el.setAttribute('value.two-way', this.valueBindString());
+      el.setAttribute('value.two-way', this.buildValueString());
     }
   }
 
   attachCustomElement(fn: CustomDynamicInputFunction) {
-    const el = fn();
+    const el = fn(this);
     this.containerElement.appendChild(el);
   }
 
@@ -169,7 +169,7 @@ export class CustomInput {
 
     el.setAttribute('id.bind', nameof<CustomInput>(e => e.inputModel.id));
     el.setAttribute('class.bind', nameof<CustomInput>(e => e.inputModel.class));
-    el.setAttribute('value.two-way', this.valueBindString());
+    el.setAttribute('value.two-way', this.buildValueString());
 
     // placeholder option
     const placeholderOption = this.createEl('option');

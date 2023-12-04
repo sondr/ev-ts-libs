@@ -1,3 +1,4 @@
+import { CustomInput } from "./elements/dynamic-input";
 import { CustomDynamicInputFunction as CustomDynamicInputFunction, ICustomDynamicInput } from "./interfaces";
 
 export class DynamicInputConfig {
@@ -9,7 +10,7 @@ export class DynamicInputConfig {
     //     this._customKeys = this.custom ? Object.keys(this.custom) : [];
     // }
 
-    add(key: string, action: () => HTMLElement) {
+    add(key: string, action: (input: CustomInput) => HTMLElement) {
         this.custom[key] = action;
     }
 
