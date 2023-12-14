@@ -2,8 +2,7 @@ import { DateTime, DateTimeOptions, Zone } from 'luxon';
 import { IDateTimeValueConverterConfig } from '../interfaces';
 
 const defaultConfig: IDateTimeValueConverterOptions = {
-  defaultFormat: 'dd. LL yyyy',
-  locale: undefined,
+  defaultFormat: 'dd. LL yyyy'
 };
 
 export function configure(cb: (config: IDateTimeValueConverterOptions) => void) {
@@ -14,7 +13,7 @@ export function getDate(date: string | Date, opts?: DateTimeOptions) {
   opts = opts ?? {};
   if (!opts.locale) { opts.locale = defaultConfig.locale; }
   if (!opts.zone) { opts.zone = defaultConfig.zone; }
-
+  
   return typeof date === 'string' ?
     DateTime.fromISO(date, opts) :
     DateTime.fromJSDate(date, opts);
@@ -32,7 +31,7 @@ export function buildOptions(opts?: IDateTimeValueConverterOptions) {
 
 export function getDateTimeOptions(opts?: IDateTimeValueConverterOptions) {
   return {
-    locale: opts?.format ?? opts?.defaultFormat ?? defaultConfig.format ?? defaultConfig.defaultFormat,
+    locale: opts?.locale ?? defaultConfig.locale,
     zone: opts?.zone ?? defaultConfig.zone
   } as DateTimeOptions;
 }

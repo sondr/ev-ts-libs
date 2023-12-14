@@ -1,6 +1,6 @@
 {
   "name": "au1-ts-libs",
-  "version": "0.8.1",
+  "version": "0.8.2",
   "description": "Aurelia 1 typescript libraries/plugins",
   "main": "index.ts",
   "scripts": {
