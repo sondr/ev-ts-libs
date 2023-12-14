@@ -24,7 +24,7 @@ export class DatetimeValueConverter {
       if(options.relativeBase){
         base = getDate(options.relativeBase, dtOptions);
       }
-      return dt.toRelative({ base: base })
+      return dt.toRelative({ base: base, round:false })
     }
 
     if(type == 'torelativecalendar'){

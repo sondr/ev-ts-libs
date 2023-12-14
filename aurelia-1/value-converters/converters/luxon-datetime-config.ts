@@ -36,7 +36,7 @@ export function getDateTimeOptions(opts?: IDateTimeValueConverterOptions) {
   } as DateTimeOptions;
 }
 
-export interface IDateTimeValueConverterOptions extends IDateTimeValueConverterConfig {
+export interface IDateTimeValueConverterOptions extends Partial<IDateTimeValueConverterConfig> {
   format?: string;
   type?: 'toFormat' | 'toRelative' | 'relativeToCalendar';
   relativeBase?: string | Date;
