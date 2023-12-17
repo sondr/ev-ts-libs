@@ -5,7 +5,8 @@ export function configure(config: FrameworkConfiguration): void {
   config.globalResources([
     PLATFORM.moduleName('./converters/filter'),
     PLATFORM.moduleName('./converters/join'),
-    PLATFORM.moduleName('./converters/luxon-datetime'),
+    PLATFORM.moduleName('./converters/datetime-duration'),
+    PLATFORM.moduleName('./converters/datetime'),
     PLATFORM.moduleName('./converters/numberformat'),
     PLATFORM.moduleName('./converters/numeral'),
     PLATFORM.moduleName('./converters/take'),
