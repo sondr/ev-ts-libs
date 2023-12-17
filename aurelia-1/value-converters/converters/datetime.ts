@@ -1,6 +1,6 @@
 import { valueConverter } from 'aurelia-framework';
 import { DateTime } from 'luxon';
-import { IDateTimeValueConverterOptions, buildOptions, getDate, getDateTimeOptions, configure } from './luxon-datetime-config';
+import { IDateTimeValueConverterOptions, buildOptions, getDate, getDateTimeOptions, configure } from './datetime-config';
 
 
 @valueConverter('datetime')
@@ -24,7 +24,7 @@ export class DatetimeValueConverter {
       if(options.relativeBase){
         base = getDate(options.relativeBase, dtOptions);
       }
-      return dt.toRelative({ base: base, round:false })
+      return dt.toRelative({ base: base, round: false })
     }
 
     if(type == 'torelativecalendar'){
