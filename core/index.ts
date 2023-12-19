@@ -11,6 +11,7 @@ export * from './file/save-as';
 export * from './functions/is-of';
 export * from './functions/nameof';
 export * from './functions/slugify';
+export * from './guid/guid-generator';
 
 export * from './object/trim';
 
