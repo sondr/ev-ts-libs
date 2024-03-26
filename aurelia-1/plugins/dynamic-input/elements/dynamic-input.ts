@@ -1,5 +1,5 @@
 import { nameof } from '../../../../core';
-import { inject, bindable, bindingMode, inlineView, customElement, DOM, TemplatingEngine, View } from 'aurelia-framework';
+import { inject, bindable, bindingMode, inlineView, customElement, DOM, TemplatingEngine, View, computedFrom } from 'aurelia-framework';
 import { CustomDynamicInputFunction, DynamicInputType, IDynamicInputModel, ISelectOption, regularInputs } from '../interfaces';
 import { DynamicInputConfig } from '../element-creator-config';
 
