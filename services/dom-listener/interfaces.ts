@@ -4,3 +4,5 @@ export interface IDisposable {
 
 
 export type TEventType = (keyof DocumentEventMap) | string;
+
+const s = new Map<string, string>();

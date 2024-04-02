@@ -7,7 +7,9 @@ import { DynamicInputConfig } from './element-creator-config';
 export function configure(config: FrameworkConfiguration, configCallback?: (config: DynamicInputConfig) => void): void {
   if (configCallback) {
     const configer = config.aurelia.container.get(DynamicInputConfig);
-    configCallback(configer);
+    if (configCallback) {
+      configCallback(configer);
+    }
   }
 
   config.globalResources([
