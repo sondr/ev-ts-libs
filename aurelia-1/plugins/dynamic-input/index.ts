@@ -5,11 +5,9 @@ import { DynamicInputConfig } from './element-creator-config';
 //const custom
 
 export function configure(config: FrameworkConfiguration, configCallback?: (config: DynamicInputConfig) => void): void {
-  if (configCallback) {
-    const configer = config.aurelia.container.get(DynamicInputConfig);
-    if (configCallback) {
-      configCallback(configer);
-    }
+  const configer = config.aurelia.container.get(DynamicInputConfig);
+  if (configCallback && typeof configCallback === 'function') {
+    configCallback(configer);
   }
 
   config.globalResources([
