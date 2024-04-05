@@ -1,0 +1,28 @@
+<template>
+    <require from="./au-sheet.css"></require>
+    <div class="au-sheet" 
+         ref="sheetElement">
+      <div class="au-sheet-overlay" 
+           ref="overlayElement"
+           click.trigger="overlayClick()"></div>
+      <div class="au-sheet-content" 
+           ref="contentElement" 
+           css.bind="css">
+        <div if.bind="showDragHandle" 
+             class="au-sheet-draghandle" 
+             ref="dragHandleElement">
+          <span></span>
+        </div>
+        <div if.bind="title" class="au-sheet-title">${title}</div>
+        <div class="au-sheet-body slim-scroll" ref="bodyElement">
+          <slot></slot>
+        </div>
+        <div show.bind="showFooter" 
+             class="au-sheet-footer">
+          <slot name="footer"></slot>
+        </div>
+      </div>
+    </div>
+  
+  </template>
+  

@@ -1,4 +1,4 @@
-import { DomListenerItem } from "./dom-listener-item";
+import { DomListenerItem } from "./event-listener-item";
 import { TEventType } from "./interfaces";
 
 export class DomListenerService {

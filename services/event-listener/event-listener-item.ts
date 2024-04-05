@@ -5,7 +5,7 @@ export class DomListenerItem implements IDisposable {
     private isActive: boolean = false;
 
     constructor(
-        public readonly element: Document | HTMLElement,
+        public readonly element: Document | HTMLElement | Window,
         public readonly event: TEventType,
         private readonly callback: (event: Event) => void,
         public readonly capture: boolean,
