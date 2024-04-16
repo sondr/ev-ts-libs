@@ -8,12 +8,6 @@ import { DragEventHandler, IPosition } from '../au-drag';
 
 type Direction = 'expand' | 'shrink';
 type Placement = 'top' | 'bottom' | 'left' | 'right';
-//enum EPlacement {
-//  Top = 'top',
-//  Right = 'right',
-//  Bottom = 'bottom',
-//  Left = 'left'
-//}
 
 const dragHandlerTop = 17;
 

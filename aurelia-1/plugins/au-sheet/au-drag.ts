@@ -31,9 +31,9 @@ export class DragEventHandler<T extends object> {
   public getData() { return this._data; }
 
   onStart: (startPosition: IPosition, event: MouseEvent | TouchEvent | Event, data?: T) => T | void;
-  onEnd: (currentPosition: IPosition, startPosition: IPosition, event: MouseEvent | TouchEvent | Event, data?: T) => T | void;
   onMove: (endPosition: IPosition, startPosition: IPosition, event: MouseEvent | TouchEvent | Event, data?: T) => T | void;
-
+  onEnd: (currentPosition: IPosition, startPosition: IPosition, event: MouseEvent | TouchEvent | Event, data?: T) => T | void;
+  
 
   setPositionType(type: positionType) {
     this.xKey = type + 'X';
