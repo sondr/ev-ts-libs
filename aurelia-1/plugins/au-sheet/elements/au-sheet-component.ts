@@ -8,10 +8,7 @@ import { getDefaultOptions } from '../options';
   <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 */
 
-
-
-const dragHandlerTop = 17;
-
+import './au-sheet-component.css';
 
 const steps: IStep[] = [
     { minDim: 200, dim: 40, dynamic: true },

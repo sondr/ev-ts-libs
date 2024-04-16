@@ -11,9 +11,10 @@ const options = {
     showDragHandle: true
 } as IAuSheetOptions;
 
-//const options = defaultOptions();
-export function setOptions(cb?: (cfg: IAuSheetOptions) => void) {
-    if (cb) { cb(options); }
+export function setOptions(cb?: (opts: IAuSheetOptions) => void) {
+    if (cb) {
+        cb(options);
+    }
 }
 
 export function getDefaultOptions() {
