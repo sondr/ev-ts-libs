@@ -1,13 +1,14 @@
 import { inject, bindable, customElement, DOM, PLATFORM } from 'aurelia-framework';
-import { DragEventHandler, IPosition } from '../au-drag';
+import { DragEventHandler } from '../au-drag';
+import { Direction, IAuSheetOptions, IContentData, IDragData, IPosition, ISize, IStep, Placement } from '../interfaces';
+import { getDefaultOptions } from '../options';
 
 /*
   Should add interactive-widget=resizes-content to the meta tag in the index.html file if content is input/needs soft keyboard
   <meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
 */
 
-type Direction = 'expand' | 'shrink';
-type Placement = 'top' | 'bottom' | 'left' | 'right';
+
 
 const dragHandlerTop = 17;
 
@@ -16,31 +17,6 @@ const steps: IStep[] = [
     { minDim: 200, dim: 40, dynamic: true },
     { minDim: 200, dim: 100 }
 ];
-
-interface IAuAutoClose {
-    overlay?: boolean;
-    //confirm: boolean;
-    //cancel: boolean;
-}
-export interface IAuSheetOptions {
-    title?: string;
-    placement?: Placement;
-    autoClose?: IAuAutoClose;
-    showFooter?: boolean;
-    zIndex?: number;
-    showDragHandle?: boolean;
-}
-
-const defaultOptions = () => ({
-    autoClose: {
-        overlay: false,
-        //confirm: false,
-        //cancel: false
-    },
-    showFooter: false,
-    zIndex: 1000,
-    showDragHandle: true
-} as IAuSheetOptions);
 
 
 @inject(DOM.Element)
@@ -116,14 +92,14 @@ export class AuSheetComponent {
     }
 
     buildOptions() {
-        const options = defaultOptions();
-        Object.assign(options, this.options ?? {});
-        this.options = options;
-        this.title = this.title ?? options.title;
-        this.placement = this.placement ?? options.placement;
-        this.zIndex = this.zIndex ?? options.zIndex;
-        this.showFooter = this.showFooter === false ? false : options.showFooter ?? false;
-        this.showDragHandle = this.showDragHandle === false ? false : options.showDragHandle ?? false;
+        const opts = getDefaultOptions();
+        Object.assign(opts, this.options ?? {});
+        this.options = opts;
+        this.title = this.title ?? opts.title;
+        this.placement = this.placement ?? opts.placement;
+        this.zIndex = this.zIndex ?? opts.zIndex;
+        this.showFooter = this.showFooter === false ? false : opts.showFooter ?? false;
+        this.showDragHandle = this.showDragHandle === false ? false : opts.showDragHandle ?? false;
     }
 
     attached() {
@@ -377,23 +353,4 @@ export class AuSheetComponent {
 }
 
 
-interface ISize {
-    w: number;
-    h: number;
-}
-interface IDragData {
-    handle: ISize;
-}
-interface IContentData {
-    positionLog: IPosition[];
-    scrollTopLog: number[];
-}
-interface IStep {
-    minDim?: number;
-    dim: number;
-    dynamic?: boolean;
-}
-interface IButtons {
-    cancelText: string;
-    confirmText: string;
-}
+

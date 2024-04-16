@@ -1,6 +1,8 @@
 // import { PLATFORM } from 'aurelia-framework';
 // const doc = (PLATFORM.global as Window).document;
 
+import { IPosition } from "./interfaces";
+
 type positionType = 'client' | 'page' | 'screen';
 type eventKeys = keyof DocumentEventMap | keyof HTMLElementEventMap;
 
@@ -8,10 +10,7 @@ const startEvents: eventKeys[] = ['mousedown', 'touchstart'];
 const moveEvents: eventKeys[] = ['mousemove', 'touchmove'];
 const endEvents: eventKeys[] = ['mouseup', 'touchend'];
 
-export interface IPosition {
-  x: number;
-  y: number;
-}
+
 
 interface IAuDragConfig {
   positionType: positionType;
