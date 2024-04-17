@@ -3,7 +3,7 @@ import { PLATFORM } from 'aurelia-pal';
 
 export function configure(config: FrameworkConfiguration): void {
   config.globalResources([
-    PLATFORM.moduleName('./elements/chart-element'),
-    PLATFORM.moduleName('./attributes/chart-attribute')
+    PLATFORM.moduleName('./chart-element')
+    //,PLATFORM.moduleName('./attributes/chart-attribute')
   ]);
 }
