@@ -11,7 +11,6 @@ const triggerBehaviors = {
 
 @inlineView('<template></template>')
 @customElement('dynamic-input')
-//@containerless()
 @inject(DOM.Element, TemplatingEngine, DynamicInputConfig)
 export class CustomInput {
   private containerElement: HTMLElement;
@@ -183,8 +182,6 @@ export class CustomInput {
     options.setAttribute('repeat.for', `o of ${nameof<CustomInput>(e => e.inputModel.options)}`);
     options.setAttribute('model.bind', `o.${nameof<ISelectOption>(e => e.id)}`);
     options.innerHTML = interpolateSyntax(`o.${nameof<ISelectOption>(e => e.title)}`);
-
-
 
     el.appendChild(options);
 
