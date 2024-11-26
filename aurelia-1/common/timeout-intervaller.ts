@@ -3,7 +3,7 @@ import { PLATFORM } from "aurelia-framework";
 abstract class TimeIntervalBase {
     protected id?: number;
     public abstract start<TArgs extends any[]>(handler: TimerHandler, timeout: number, ...args: TArgs);
-    public abstract clear();
+    public abstract clear() : TimeIntervalBase;
 }
 
 
@@ -16,6 +16,8 @@ export class Timeouter extends TimeIntervalBase {
     public clear() {
         (PLATFORM.global as Window & typeof globalThis).clearTimeout(this.id);
         this.id = undefined;
+
+        return this;
     }
 }
 
@@ -29,5 +31,7 @@ export class Intervaller extends TimeIntervalBase {
 
     public clear() {
         (PLATFORM.global as Window & typeof globalThis).clearInterval(this.id);
+
+        return this;
     }
 }
