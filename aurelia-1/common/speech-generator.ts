@@ -16,34 +16,34 @@ export class SpeechGenerator {
         this.setOptions(opts);
     }
 
-    setOptions(opts?: IUtteranceOptions) {
+    public setOptions(opts?: IUtteranceOptions) {
         this.utterance.lang = opts?.lang || '';
         this.utterance.pitch = opts?.pitch || 1;
         this.utterance.rate = opts?.rate || 1;
         this.utterance.volume = opts?.volume || 1;
     }
 
-    setVoice(voice: SpeechSynthesisVoice) {
+    public setVoice(voice: SpeechSynthesisVoice) {
         this.utterance.voice = voice;
     }
 
-    resume() {
+    public resume() {
         (PLATFORM.global as Window & typeof globalThis).speechSynthesis.resume();
     }
 
-    pause() {
+    public pause() {
         (PLATFORM.global as Window & typeof globalThis).speechSynthesis.pause();
     }
 
-    cancel() {
+    public cancel() {
         (PLATFORM.global as Window & typeof globalThis).speechSynthesis.cancel();
     }
 
-    getVoices() {
+    public getVoices() {
         (PLATFORM.global as Window & typeof globalThis).speechSynthesis.getVoices();
     }
 
-    speak(text: string) {
+    public speak(text: string) {
         this.utterance.text = text;
         (PLATFORM.global as Window & typeof globalThis).speechSynthesis.speak(this.utterance);
     }
