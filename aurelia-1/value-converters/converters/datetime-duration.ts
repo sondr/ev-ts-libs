@@ -50,7 +50,7 @@ export class DurationValueConverter {
   };
 
   public static convert(date: string | Date, opts?: IDurationOptions) {
-    this.verifyConfig(opts);
+    DurationValueConverter.verifyConfig(opts);
 
     try {
       const parsedDate = typeof date === 'string' ? new Date(date) : date;
