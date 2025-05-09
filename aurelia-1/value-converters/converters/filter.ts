@@ -41,22 +41,24 @@ const FILTER_MODES: IFilterMode = {
         stringify: false,
         isArray: true
     },
-    'date>=': {
+    'Date.>=': {
         fn: (a: string | Date, b: string | Date) => {
-          const t1 = toMillis(a);
-          const t2 = toMillis(b);
-          return t1 >= t2;
+            const t1 = toMillis(a);
+            const t2 = toMillis(b);
+
+            return t1 >= t2;
         },
         stringify: false
-      },
-      'date<': {
+    },
+    'Date.<': {
         fn: (a: string | Date, b: string | Date) => {
-          const t1 = toMillis(a);
-          const t2 = toMillis(b);
-          return t1 < t2;
+            const t1 = toMillis(a);
+            const t2 = toMillis(b);
+
+            return t1 < t2;
         },
         stringify: false
-      }
+    }
 };
 
 
