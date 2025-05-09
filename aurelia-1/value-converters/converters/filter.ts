@@ -1,6 +1,9 @@
 import { inject, OverrideContext, Parser, valueConverter } from 'aurelia-framework';
 import { FilterMode, IFilterOptions } from '../interfaces';
 
+const toMillis = (d: string | Date): number =>
+    d instanceof Date ? d.getTime() : new Date(d).getTime();
+
 const FILTER_MODES: IFilterMode = {
     // String
     'exact': { fn: (a: string, b: string) => a === b, stringify: true },
@@ -28,7 +31,6 @@ const FILTER_MODES: IFilterMode = {
         stringify: false,
         isArray: true
     },
-
     'Array.includes': {
         fn: (a: string[], b: string) => (a || []).includes(b),
         stringify: false,
@@ -38,7 +40,23 @@ const FILTER_MODES: IFilterMode = {
         fn: (a: string[], b: string) => !(a || []).includes(b),
         stringify: false,
         isArray: true
-    }
+    },
+    'date>=': {
+        fn: (a: string | Date, b: string | Date) => {
+          const t1 = toMillis(a);
+          const t2 = toMillis(b);
+          return t1 >= t2;
+        },
+        stringify: false
+      },
+      'date<': {
+        fn: (a: string | Date, b: string | Date) => {
+          const t1 = toMillis(a);
+          const t2 = toMillis(b);
+          return t1 < t2;
+        },
+        stringify: false
+      }
 };
 
 
