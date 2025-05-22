@@ -20,3 +20,4 @@ export * from './string/trim';
 
 export * from './url/combine';
 
+export * from './vat-calculator/vat-calculator';
