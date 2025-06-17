@@ -1,6 +1,6 @@
 {
   "name": "au1-ts-libs",
-  "version": "0.16.0",
+  "version": "0.16.1",
   "description": "Aurelia 1 typescript libraries/plugins",
   "main": "index.ts",
   "scripts": {
@@ -12,6 +12,7 @@
     "@types/luxon": "^3.0.0",
     "aurelia-event-aggregator": "^1.0.0",
     "aurelia-framework": "^1.0.0",
+    "aurelia-router": "^1.0.0",
     "aurelia-loader-nodejs": "^1.0.0",
     "aurelia-pal-nodejs": "^1.0.0||^2.0.0||^3.0.0-rc.1",
     "chart.js": "^4.0.0",
